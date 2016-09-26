@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <queue>
+#define NL -1
 
 typedef struct node
 {
@@ -27,7 +28,7 @@ public:
     end->next = NULL;
   }
 
-  void push(int id, int during)
+  void push(int id)
   {
     pCustomer pLast = end->last;
     pCustomer pCus = new struct node;
@@ -47,6 +48,7 @@ public:
       head->next = pTop->next;
       (head->next)->last = head;
       delete pTop;
+      --length;
     }
   }
 
@@ -71,9 +73,10 @@ public:
     } 
     delete end;
   }
-
-  
 };
+
+int line2insert(Line* lines, int n, int m);
+int allEmpty(Line* lines, int n);
 
 int main(int argc, char const *argv[])
 {
@@ -103,7 +106,41 @@ int main(int argc, char const *argv[])
     ++behindLine;
   }
 
+  do
+  {
 
+    int l2i;
+    while (((l2i = line2insert(lines, n, m)) != NL) && behindLine < k)
+    {
+      lines[l2i].push(behindLine);
+      ++behindLine;
+    }
+
+
+    int minRI = 0;
+    int minRemain = tRemain[0];
+    for (int i = 1; i < n; ++i)
+    {
+      if (tRemain[i] < minRemain)
+      {
+        minRI = i;
+        minRemain = tRemain[i];
+      }
+    }
+    tNow += minRemain;
+
+    for (int i = 0; i < n; ++i)
+    {
+      tRemain[i] -= minRemain;
+    }
+
+    pCustomer cur = lines[minRI].top();
+    tFinish[cur->id] = tNow;
+    lines[minRI].pop();
+    pCustomer next1 = lines[minRI].top();
+    tRemin[minRI] = t[next1->id];
+
+  } while (!allEmpty(lines, n));
 
   
   delete[] t;
@@ -111,4 +148,38 @@ int main(int argc, char const *argv[])
   delete[] tRemain;
   delete[] lines;
   return 0;
+}
+
+int line2insert(Line* lines, int n, int m)
+{
+  int shortest = 0;
+  int slength = lines[0].size();
+
+  for (int i = 1; i < n; ++i)
+  {
+    if (lines[i].size() < slength)
+    {
+      shortest = i;
+      slength = lines[i].size();
+    }
+  }
+
+  if (slength < m)
+  {
+    return shortest;
+  } else {
+    return NL;
+  }
+}
+
+int allEmpty(Line* lines, int n)
+{
+  for (int i = 0; i < n; ++i)
+  {
+    if (lines[i].size() > 0)
+    {
+      return 0;
+    }
+  }
+  return 1;
 }
