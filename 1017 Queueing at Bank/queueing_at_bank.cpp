@@ -50,9 +50,10 @@ int main(int argc, char const *argv[])
 
   while (iter != customers.end())
   {
+    //开始服务下一个，如果有空柜台，队列中还有人，且下一个已经到达
     for (int i = 0; i < k; ++i)
     {
-      if (!isServing[i] && iter != customers.end() && now >= (*iter).aTime)
+      if (!isServing[i] && iter != customers.end() && now >= (*iter).aTime) 
       {
         isServing[i] = 1;
         tRemain[i] = (*iter).sLength;
@@ -61,12 +62,14 @@ int main(int argc, char const *argv[])
       }
     }
 
-    if (now < (*iter).aTime && empty(isServing, k))
+    // 如果下一个还没到达且柜台已空，时间直接跳转至下一个人到达进入下一循环
+    if (now < (*iter).aTime && empty(isServing, k)) 
     {
       now = (*iter).aTime;
       continue;
     }
 
+    //到现在可以保证至少有一个柜台在服务，找到剩余时间最短的柜台
     int minRemain = maxLength + 1;
     int minRI;
     for (int i = 0; i < k; ++i)
@@ -78,6 +81,7 @@ int main(int argc, char const *argv[])
       }
     }
 
+    //如果下一个人还没到达，且剩余服务时间最短的柜台结束服务时这个人已经来了，时间进行到这个人到来进入下一循环
     if (now < (*iter).aTime && now + minRemain > (*iter).aTime)
     {
       minRemain = (*iter).aTime - now;
@@ -92,6 +96,7 @@ int main(int argc, char const *argv[])
       continue;
     }
 
+    //若下一个人已到来但没有柜台可用或要等到剩余时间最短的柜台结束服务后才到，时间进行到下一次服务结束
     now += minRemain;
     for (int i = 0; i < k; ++i)
     {
