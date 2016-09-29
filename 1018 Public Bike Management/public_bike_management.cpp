@@ -70,7 +70,7 @@ void dijkstra (int start, int target)
               minDistI = i;
               minDistILast.push_back(j);
             } 
-            else if (distCur = minDist && i == minDistI)
+            else if (distCur == minDist && i == minDistI)
             {
               minDistILast.push_back(j);
             }
