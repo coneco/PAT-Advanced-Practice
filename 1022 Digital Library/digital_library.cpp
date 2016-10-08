@@ -79,7 +79,7 @@ int main(int argc, char const *argv[])
       for (std::vector<int>::iterator i = library[k-1][query].begin(); i != library[k-1][query].end(); ++i)
       {
         int output = *i;
-        std::printf("%.6d\n", output);
+        std::printf("%.7d\n", output);
       }
     }
   }
