@@ -41,20 +41,38 @@ int main(int argc, char const *argv[])
     std::scanf("%d", &tn);
     vTable[tn] = true;
   }
-  int availVipTable = m;
+  int availVipTables = m;
+  int availTables = k;
 
   queue<player> waiting;
   std::vector<player>::iterator nextOne = players.begin();
   int vipInQueue = 0;
 
   int now = 0;
-
+  
   while(true)
   {
     while (nextOne != players.end() && (*nextOne).aTime <= now)
     {
+      //come
       waiting.push(*nextOne);
-      ++nextOnel
+      ++nextOnel;
+    }
+    if (availTables && !waiting.empty())
+    {
+      //
+    } 
+    else if (!availTables && !waiting.empty())
+    {
+
+    }
+    else if (availTables && waiting.empty())
+    {
+
+    }
+    else
+    {
+
     }
   }
 
