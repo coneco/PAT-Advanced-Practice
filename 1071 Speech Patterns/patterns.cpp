@@ -9,13 +9,12 @@ std::map<std::string, int> count;
 
 bool isC(char c)
 {
-    return (c >= 'a'&&c <= 'z') || (c >= '0'&&c <= '9');
+    return (c >= 'a'&&c <= 'z') || (c >= '0'&&c <= '9') || (c>='A'&&c<='Z');
 }
 
 int main()
 {
     std::cin.getline(str, 1050000);
-    strlwr(str);
     int i = 0;
     while (str[i])
     {
@@ -25,7 +24,7 @@ int main()
             std::string s;
             while (isC(str[j]))
             {
-                s.push_back(str[j]);
+                s.push_back((str[j]>='A'&&str[j]<='Z')?(char)(str[j]+32):str[j]);
                 ++j;
             }
             i = j;
